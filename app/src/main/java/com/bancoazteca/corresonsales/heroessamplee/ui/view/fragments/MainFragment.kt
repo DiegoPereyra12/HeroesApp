@@ -44,18 +44,26 @@ class MainFragment : Fragment() {
             adapter.setHeroList(it)
         })
 
+        checkIsBottomScroll()
+
+        return binding.root
+    }
+
+    private fun checkIsBottomScroll() {
         binding.RV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    firstscrolling = scrolling + 1
-                    scrolling += 50
-                    heroViewModel.onCreate()
+                    updateIndex()
                 }
             }
         })
+    }
 
-        return binding.root
+    private fun updateIndex() {
+        firstscrolling = scrolling + 1
+        scrolling += 50
+        heroViewModel.onCreate()
     }
 
     fun initRecyclerView() {
